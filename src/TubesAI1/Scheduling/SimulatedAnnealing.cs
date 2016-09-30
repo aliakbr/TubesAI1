@@ -66,5 +66,10 @@ namespace TubesAI1.Scheduling
             Console.WriteLine("Last conflict: " + this.solution.getConflict());
         }
 
+        public KelasManagement getSol()
+        {
+            return this.solution;
+        }
+
     }
 }

@@ -154,7 +154,7 @@ namespace TubesAI1.Controllers
                         int point = 0;
                         temp = "";
                         hari_buka = new List<int>();
-                        for (int i = 0; i < line.Length; i++)
+                        for (int k = 0; k < line.Length; k++)
                         {
                             b = (char)sr.Read();
                             if (b == ';')
@@ -197,8 +197,16 @@ namespace TubesAI1.Controllers
                         listOfKelas.addKelas(new Kelas(nama, ruangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan));
                     }
                 }
-                ViewData["Length"] = listOfKelas;
-                ViewData["Test"] = listOfRuangan;
+                SimulatedAnnealing sa = new SimulatedAnnealing(listOfKelas, listOfRuangan);
+                sa.execute(1000, 0.9f);
+                KelasManagement ans = sa.getSol();
+                int i = 0;
+                foreach (Kelas k in ans.getArrayKelas())
+                {
+                    ViewData[i.ToString()] = k;
+                    i++;
+                }
+                ViewData["Length"] = i;
             }
             return View();
         }
