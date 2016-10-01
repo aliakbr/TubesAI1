@@ -65,7 +65,7 @@ namespace TubesAI1.Scheduling
         {
             foreach(Ruangan r in this.arrayRuangan)
             {
-                if(r.getName() == nama)
+                if(r.getName().Equals(nama))
                 {
                     return r;
                 }

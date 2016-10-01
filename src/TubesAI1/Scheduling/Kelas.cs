@@ -36,7 +36,7 @@ namespace TubesAI1.Scheduling
         public Kelas(string nama, string ruangan, int mulai, int selesai, int durasi, List<int> hari, RuanganManagement ruanganManagement)
         {
             this.ruanganManagement = ruanganManagement;
-            if (ruangan == "-") // Jika tidak ada constraint ruangan
+            if (ruangan.Equals("-")) // Jika tidak ada constraint ruangan
             {
                 this.domainRuangan = ruanganManagement.getAllRuangan();
             }
@@ -52,7 +52,7 @@ namespace TubesAI1.Scheduling
             this.durasi = durasi;
             this.domainHari = hari;
             this.domainMulai = new List<int>();
-            for(int i= mulai; i <= selesai-durasi; i++)
+            for(int i = mulai; i <= selesai-durasi; i++)
             {
                 this.domainMulai.Add(i);
             }

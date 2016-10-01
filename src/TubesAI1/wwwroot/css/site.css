@@ -36,3 +36,39 @@ textarea {
     display: none
   }
 }
+
+ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 90%;
+            float: left;
+        }
+
+        li {
+            margin: 0 3px 3px 3px;
+            padding: 0.4em;
+            padding-left: 1.5em;
+            font-size: 17px;
+            height: 50px;
+        }
+
+        tr {
+            height: 50px;
+            background: #eee;
+            text-align: center;
+        }
+
+        td {
+            width: 200px;
+        }
+
+        .head {
+            background: #267ADC;
+            width: 250px;
+            text-align: center;
+        }
+
+        .junk {
+            width: 300px;
+        }

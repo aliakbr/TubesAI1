@@ -22,6 +22,7 @@ namespace TubesAI1.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Length"] = 0;
             return View();
         }
         
@@ -75,6 +76,7 @@ namespace TubesAI1.Controllers
                 RuanganManagement listOfRuangan = new RuanganManagement();
                 KelasManagement listOfKelas = new KelasManagement();
                 
+                
                 /* ADT RUANGAN */
                 string nama = "";                // Contoh: "7602"
                 int jam_buka = 0;               // Contoh: 7 (buka mulai jam 7)
@@ -88,6 +90,7 @@ namespace TubesAI1.Controllers
                 List<int> domainMulai = new List<int>();          // Contoh: [7, 8, 9] (Kelas hanya bisa mulai jam 7, 8, atau 9)
                 List<int> domainHari = new List<int>();           // Contoh: [1, 3, 5] (Kelas hanya bisa dilakukan hari Senin, Rabu, atau Jumat)
                 int durasi = 0;                     // Contoh: 4 (4 jam)
+                int debug = 0;
 
 
                 while ((line = readStream.ReadLine()) != null)
@@ -114,7 +117,7 @@ namespace TubesAI1.Controllers
                         hari_buka = new List<int>();
                         domainMulai = new List<int>();
                         domainRuangan = new List<Ruangan>();
-                        for (int i = 0; i < line.Length; i++)
+                        for (int k = 0; k < line.Length; k++)
                         {
                             b = (char)sr.Read();
                             if (b == ';')
@@ -143,8 +146,8 @@ namespace TubesAI1.Controllers
                         var parse = new StringReader(temp);
                         for (int j = 0; j < temp.Length; j++)
                         {
-                            int val = parse.Read();
-                            hari_buka.Add(val);
+                            char val = (char)parse.Read();
+                            hari_buka.Add(Int32.Parse(val.ToString()));
                         }
                         listOfRuangan.addRuangan(new Ruangan(nama, jam_buka, jam_tutup, hari_buka));
                     }
@@ -165,10 +168,7 @@ namespace TubesAI1.Controllers
                                 }
                                 else if (point == 1)
                                 {
-                                    if (!temp.Equals("-"))
-                                    {
-                                        ruangan = temp;
-                                    }
+                                    ruangan = temp;
                                 }
                                 else if (point == 2)
                                 {
@@ -191,19 +191,25 @@ namespace TubesAI1.Controllers
                         var parse = new StringReader(temp);
                         for (int j = 0; j < temp.Length; j++)
                         {
-                            int val = parse.Read();
-                            hari_buka.Add(val);
+                            char val = (char)parse.Read();
+                            hari_buka.Add(Int32.Parse(val.ToString()));
                         }
-                        listOfKelas.addKelas(new Kelas(nama, ruangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan));
+                        Kelas c = new Kelas(nama, ruangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
+                        listOfKelas.addKelas(c);
                     }
                 }
                 SimulatedAnnealing sa = new SimulatedAnnealing(listOfKelas, listOfRuangan);
                 sa.execute(1000, 0.9f);
                 KelasManagement ans = sa.getSol();
                 int i = 0;
-                foreach (Kelas k in ans.getArrayKelas())
+                foreach (Kelas k in listOfKelas.getArrayKelas())
                 {
                     ViewData[i.ToString()] = k;
+                    ViewData["nama" + i.ToString()] = k.getNama();
+                    ViewData["ruangan" + i.ToString()] = k.getNamaRuangan();
+                    ViewData["durasi" + i.ToString()] = k.getDurasi();
+                    ViewData["hari" + i.ToString()] = k.getHari();
+                    ViewData["jam" + i.ToString()] = k.getMulai();
                     i++;
                 }
                 ViewData["Length"] = i;
