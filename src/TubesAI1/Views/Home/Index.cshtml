@@ -1,12 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    @using TubesAI1.Scheduling;
 }
 
 @{ 
     for (int z = 0; z < (int)ViewData["Length"]; z++)
     {
-
         <li>
         Nama Kelas: @ViewData["nama" + z.ToString()]<br />
         Nama Ruangan: @ViewData["ruangan" + z.ToString()]<br />

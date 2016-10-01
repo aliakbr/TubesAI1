@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Movie App </title>
 
     <environment names="Development">
+        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -15,6 +16,8 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+
+
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
@@ -40,6 +43,82 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th class="head"><h3>Jam / Hari</h3></th>
+                    <td class="head"><h3>Senin</h3>  </td>
+                    <td class="head"><h3>Selasa</h3>  </td>
+                    <td class="head"><h3>Rabu</h3>  </td>
+                    <td class="head"><h3>Kamis</h3>  </td>
+                    <td class="head"><h3>Jumat</h3>  </td>
+                    <td class="head"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>07.00-08.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>08.00-09.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>09.00-10.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>10.00-11.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>11.00-12.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>12.00-13.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+                <tr class="sortable-list">
+                    <th class="head"><h3>12.00-13.00</h3></th>
+                    <td><h3>IF1213</h3>  </td>
+                    <td><h3>IF2331</h3>  </td>
+                    <td><h3>IF2311</h3>  </td>
+                    <td><h3>IF3103</h3>  </td>
+                    <td><h3>KU4021</h3>  </td>
+                    <td class="junk"><h3></h3>  </td>
+                </tr>
+            </table>
+        </div>
         <hr />
         <footer>
             <p>&copy; 2016 - TubesAI1</p>
@@ -50,6 +129,29 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script type="text/javascript">
+      $(function() {
+          $('.sortable-list').sortable({
+			  connectWith: '.sortable-list',
+			  update: function(event, ui) {
+				var changedList = this.id;
+				var order = $(this).sortable('toArray');
+				var positions = order.join(';');
+
+				console.log({
+				  id: changedList,
+				  positions: positions
+				});
+			  }
+			});
+         $( ".selector" ).sortable({
+			  disabled: true
+			});
+
+      });
+        </script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

@@ -204,7 +204,6 @@ namespace TubesAI1.Controllers
                 int i = 0;
                 foreach (Kelas k in listOfKelas.getArrayKelas())
                 {
-                    ViewData[i.ToString()] = k;
                     ViewData["nama" + i.ToString()] = k.getNama();
                     ViewData["ruangan" + i.ToString()] = k.getNamaRuangan();
                     ViewData["durasi" + i.ToString()] = k.getDurasi();
