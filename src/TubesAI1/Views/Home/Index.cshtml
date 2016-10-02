@@ -3,37 +3,58 @@
 }
 
 
-<div class="container">
     <table class="table">
-        <tr>
+        <tr style="background:#081645; color:#eee;">
             <th class="head"><h3>Jam / Hari</h3></th>
             <td class="head"><h3>Senin</h3>  </td>
             <td class="head"><h3>Selasa</h3>  </td>
             <td class="head"><h3>Rabu</h3>  </td>
             <td class="head"><h3>Kamis</h3>  </td>
             <td class="head"><h3>Jumat</h3>  </td>
-            <td class="head"><h3></h3>  </td>
         </tr>
         @{ 
             for (int i = 7; i < 18; i++)
             {
-                <tr class="sortable-list">
-                @for (int j = 1; j < 6; j++)
+                <tr>
+                @for (int j = 1; j < 7; j++)
                 {
                     @if (j == 1)
                     {
-                        <td class="head"><h3>@(i.ToString() + "-" + (i + 1).ToString())</h3></td>
-                    } else
+                        if (i < 9)
+                        {
+
+                            <th><h3>@("0" + i.ToString() + ".00 " + "-" + "0" + (i + 1).ToString() + ".00")</h3></th>
+
+                        }
+                        else if (i==9)
+                        {
+
+
+                            <th><h3>@("0"+ i.ToString() + ".00 " + "-"  + (i + 1).ToString() + ".00")</h3></th>
+                        }
+                        else
+                        {
+                            <th><h3>@(i.ToString() + ".00 " + "-" + (i + 1).ToString() + ".00")</h3></th>
+
+                        }
+                    }
+                    else
                     {
-                        <td><h3>@ViewData["nama" + i.ToString() + j.ToString()]<br />
-                            @ViewData["ruangan" + i.ToString() + j.ToString()]</h3></td>
+                        <td>
+                            <ul id=@( j.ToString() +i.ToString())  class="sortable-list">
+                                <li id=@ViewData["nama" + i.ToString() + j.ToString()]>
+                                    <h2>@ViewData["nama" + i.ToString() + j.ToString()]<br />
+                                    @ViewData["ruangan" + i.ToString() + j.ToString()]</h2>
+                                </li>
+                                <li id="null" class="default"></li>
+                           </ul>
+                        </td>
                     }
                 }
                 </tr>
             }
         }
         </table>
- </div>
 <form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
     <input type="file" name="files" multiple />     
     <input type="submit" value="Upload" />
