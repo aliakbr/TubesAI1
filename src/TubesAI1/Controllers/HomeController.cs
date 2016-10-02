@@ -202,7 +202,8 @@ namespace TubesAI1.Controllers
                 sa.execute(1000, 0.9f);
                 KelasManagement ans = sa.getSol();
                 int i = 0;
-                foreach (Kelas k in listOfKelas.getArrayKelas())
+                ViewData["header-table"] = "<div class='container'>  <table class='table'>     <tr>  <th class='head'><h3>Jam / Hari</h3></th>         <td class='head'><h3>Senin</h3>  </td><td class='head'><h3>Selasa</h3>  </td><td class='head'><h3>Rabu</h3>  </td><td class='head'><h3>Kamis</h3>  </td><td class='head'><h3>Jumat</h3>  </td><td class='head'><h3></h3>  </td></tr>";
+              foreach (Kelas k in listOfKelas.getArrayKelas())
                 {
                     ViewData["nama" + i.ToString()] = k.getNama();
                     ViewData["ruangan" + i.ToString()] = k.getNamaRuangan();
@@ -211,6 +212,7 @@ namespace TubesAI1.Controllers
                     ViewData["jam" + i.ToString()] = k.getMulai();
                     i++;
                 }
+                ViewData["footer-table"] = "</table></ div > ";
                 ViewData["Length"] = i;
             }
             return View();

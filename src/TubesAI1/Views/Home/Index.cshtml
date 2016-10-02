@@ -2,21 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-@{ 
-    for (int z = 0; z < (int)ViewData["Length"]; z++)
-    {
-        <li>
-        Nama Kelas: @ViewData["nama" + z.ToString()]<br />
-        Nama Ruangan: @ViewData["ruangan" + z.ToString()]<br />
-        Jam Mulai: @ViewData["jam" + z.ToString()]<br />
-        Durasi: @ViewData["durasi" + z.ToString()]<br />
-        Hari: @ViewData["hari" + z.ToString()]<br />
-        </li>
-    }
-}
-<p>@ViewData["Message"]</p>
-<br /><br />
-<form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
-    <input type="file" name="files" multiple />
-    <input type="submit" value="Upload" />
-</form>
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th class="head"><h3>Jam / Hari</h3></th>
+            <td class="head"><h3>Senin</h3>  </td>
+            <td class="head"><h3>Selasa</h3>  </td>
+            <td class="head"><h3>Rabu</h3>  </td>
+            <td class="head"><h3>Kamis</h3>  </td>
+            <td class="head"><h3>Jumat</h3>  </td>
+            <td class="head"><h3></h3>  </td>
+        </tr>
+        <tr>
+            @{
+                for (int z = 0; z < (int)ViewData["Length"]; z++)
+                {
+                    <li>
+                        Nama Kelas: @ViewData["nama" + z.ToString()]<br />
+                        Nama Ruangan: @ViewData["ruangan" + z.ToString()]<br />
+                        Jam Mulai: @ViewData["jam" + z.ToString()]<br />
+                        Durasi: @ViewData["durasi" + z.ToString()]<br />
+                        Hari: @ViewData["hari" + z.ToString()]<br />
+                    </li>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                }
+            
+        </tr>
+        </table>
+ </div>
+ }
+
+        <p>@ViewData["Message"]</p>
+        <br />
+        <br />
+        <form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
+            <input type="file" name="files" multiple />
+            <input type="submit" value="Upload" />
+        </form>
