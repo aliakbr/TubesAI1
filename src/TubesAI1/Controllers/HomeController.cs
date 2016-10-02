@@ -21,6 +21,32 @@ namespace TubesAI1.Controllers
             _environment = environment;
         }
 
+        public string gethari( int i)
+        {
+            string a = "";
+            switch (i)
+            {
+                case 2:
+                    a = "senin";
+                    break;
+                case 3:
+                    a = "selasa";
+                    break;
+                case 4:
+                    a = "rabu";
+                    break;
+                case 5:
+                    a = "kamis";
+                    break;
+                case 6:
+                    a = "jumat";
+                    break;
+                default:
+                    break;
+            }
+            return a;
+        }
+
         public IActionResult Index()
         {
             ViewData["Start"] = 0;
