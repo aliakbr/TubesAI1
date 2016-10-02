@@ -7,12 +7,13 @@ using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
-using TubesAI1.Scheduling;
+using Tubes1AI.Scheduling;
 
 namespace TubesAI1.Controllers
 {
     public class HomeController : Controller
     {
+        private UserInput user_input = new UserInput();
         private IHostingEnvironment _environment;
 
         public HomeController(IHostingEnvironment environment)
@@ -22,16 +23,17 @@ namespace TubesAI1.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Start"] = 0;
             ViewData["Length"] = 0;
             return View();
         }
-        
+
         public IActionResult Error()
         {
             ViewData["Message"] = "An error has occured.";
             return View();
         }
-
+        
         private int timeToInt (string s)
         {
             // Asumsi hanya ada 5 karakter pada s
@@ -48,9 +50,35 @@ namespace TubesAI1.Controllers
             return temp;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(ICollection<IFormFile> files)
+        private bool cekRuanganSama (string namaRuangan, string ruangan)
         {
+            var sr = new StringReader(ruangan);
+            string temp = "";
+            char b;
+            while (sr.Peek() > -1)
+            {
+                temp = "";
+                do
+                {
+                    b = (char)sr.Read(); 
+                    if (b != ' ')
+                    {
+                        temp += b;
+                    }
+                } while ((b != ' ') && (sr.Peek() > -1));
+                if (namaRuangan.Equals(temp))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Index(ICollection<IFormFile> files, UserInput u)
+        {
+            user_input = u;
             var uploads = Path.Combine(_environment.WebRootPath, "uploads");
             foreach (var file in files)
             {
@@ -66,7 +94,7 @@ namespace TubesAI1.Controllers
             var openFile = new FileStream(uploads, FileMode.Open, FileAccess.Read);
             using (var readStream = new StreamReader(openFile))
             {
-                ViewData["Message"] = "";
+                int conflict = 0;
                 string line;
 
                 Boolean isRuangan = false;
@@ -90,7 +118,6 @@ namespace TubesAI1.Controllers
                 List<int> domainMulai = new List<int>();          // Contoh: [7, 8, 9] (Kelas hanya bisa mulai jam 7, 8, atau 9)
                 List<int> domainHari = new List<int>();           // Contoh: [1, 3, 5] (Kelas hanya bisa dilakukan hari Senin, Rabu, atau Jumat)
                 int durasi = 0;                     // Contoh: 4 (4 jam)
-                int debug = 0;
 
 
                 while ((line = readStream.ReadLine()) != null)
@@ -125,7 +152,6 @@ namespace TubesAI1.Controllers
                                 if (point == 0)
                                 {
                                     nama = temp;
-                                    ViewData["Test"] += temp + " ";
                                 }
                                 else if (point == 1)
                                 {
@@ -198,20 +224,39 @@ namespace TubesAI1.Controllers
                         listOfKelas.addKelas(c);
                     }
                 }
-                SimulatedAnnealing sa = new SimulatedAnnealing(listOfKelas, listOfRuangan);
-                sa.execute(1000, 0.9f);
-                KelasManagement ans = sa.getSol();
+
+                KelasManagement ans;
+                if (user_input.choice == 0)
+                {
+                    HillClimbing hc = new HillClimbing(listOfKelas, listOfRuangan);
+                    ans = hc.getSol();
+                    ViewData["Choice"] = "Hill Climbing";
+                } else if (user_input.choice == 1)
+                {
+                    SimulatedAnnealing sa = new SimulatedAnnealing(listOfKelas, listOfRuangan);
+                    sa.execute(1000, 0.9f);
+                    ans = sa.getSol();
+                    ViewData["Choice"] = "Simulated Annealing";
+                } else if (user_input.choice == 2)
+                {
+                    Population p = new Population();
+                    p.generatePopulation(200, listOfKelas);
+                    GeneticAlgorithm ga = new GeneticAlgorithm(p);
+                    ans = ga.getSolution();
+                    ViewData["Choice"] = "Genetic Algorithm";
+                }
+                
                 int i = 0;
                 // Inisialisasi
                 for (int j = 7; j < 18; j++)
                 {
                     for (int k = 1; k < 6; k++)
                     {
-                        ViewData["nama" + j.ToString() + k.ToString()] = " ";
-                        ViewData["ruangan" + j.ToString() + k.ToString()] = " ";
+                        ViewData["marker" + j.ToString() + k.ToString()] = 0;
+                        ViewData["nama" + j.ToString() + k.ToString()] = "";
+                        ViewData["ruangan" + j.ToString() + k.ToString()] = "";
                     }
                 }
-
                 // Pengisian kelas di tabel
                 foreach (Kelas k in listOfKelas.getArrayKelas())
                 {
@@ -220,16 +265,34 @@ namespace TubesAI1.Controllers
                     ViewData["durasi" + i.ToString()] = k.getDurasi();
                     ViewData["hari" + i.ToString()] = k.getHari();
                     ViewData["jam" + i.ToString()] = k.getMulai();
-                    if (ViewData["nama" + k.getMulai().ToString() + k.getHari().ToString()].Equals(" "))
-                    {
-                        ViewData["nama" + k.getMulai().ToString() + k.getHari().ToString()] = k.getNama();
-                        ViewData["ruangan" + k.getMulai().ToString() + k.getHari().ToString()] = k.getNamaRuangan();
+                    for (int z = k.getMulai(); z < (k.getMulai() + k.getDurasi()); z++) {
+                        if (ViewData["ruangan" + z.ToString() + k.getHari().ToString()].Equals(""))
+                        {
+                            ViewData["nama" + z.ToString() + k.getHari().ToString()] = k.getNama();
+                            ViewData["ruangan" + z.ToString() + k.getHari().ToString()] = k.getNamaRuangan();
+                        } else if (cekRuanganSama(k.getNamaRuangan(), ViewData["ruangan" + z.ToString() + k.getHari().ToString()].ToString())){
+                            conflict++;
+                            ViewData["marker" + z.ToString() + k.getHari().ToString()] = 1;
+                            ViewData["nama" + z.ToString() + k.getHari().ToString()] += " " + k.getNama();
+                            ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
+                        } else
+                        {
+                            ViewData["nama" + z.ToString() + k.getHari().ToString()] += " " + k.getNama();
+                            ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
+                        }
                     }
                     i++;
+                    ViewData["Message"] = conflict;
                 }
                 ViewData["Length"] = i;
             }
+            ViewData["Start"] = 1;
             return View();
         }
     }
+}
+
+public class UserInput
+{
+    public int choice { get; set; }
 }

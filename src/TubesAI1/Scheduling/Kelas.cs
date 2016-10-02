@@ -4,39 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-    File Name: Kelas.cs
-    Description: Class ini adalah variabel pada permasalahan ini.
-*/
-
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     class Kelas
     {
-        // Value yang dimiliki 'Kelas' saat ini
-        // 3 variable inilah yang diassign value
-        private Ruangan currentRuangan;         
-        private int currentMulai;               // Contoh: 7 (mulai kelas jam 7)
-        private int currentHari;                // Contoh: 1 (Senin)
+        private Ruangan currentRuangan;
+        private int currentMulai;
+        private int currentHari;
 
-        // Domain value yang dimiliki 'Kelas'
-        private List<Ruangan> domainRuangan;    
-        private List<int> domainMulai;          // Contoh: [7, 8, 9] (Kelas hanya bisa mulai jam 7, 8, atau 9)
-        private List<int> domainHari;           // Contoh: [1, 3, 5] (Kelas hanya bisa dilakukan hari Senin, Rabu, atau Jumat)
+        private string nama;
+        private int durasi;
 
-        // Nama dan durasi 'Kelas'
-        private string nama;                    // Contoh: "IF2110"
-        private int durasi;                     // Contoh: 4 (4 jam)
+        private List<Ruangan> domainRuangan;
+        private List<int> domainMulai;
+        private List<int> domainHari;
 
         private RuanganManagement ruanganManagement;
-        
-        /*
-            Constructor Kelas
-        */
+
+        // IF2110;7602;07.00;12.00;4;1,2,3,4,5
+        // 
         public Kelas(string nama, string ruangan, int mulai, int selesai, int durasi, List<int> hari, RuanganManagement ruanganManagement)
         {
             this.ruanganManagement = ruanganManagement;
-            if (ruangan.Equals("-")) // Jika tidak ada constraint ruangan
+            if (ruangan == "-")
             {
                 this.domainRuangan = ruanganManagement.getAllRuangan();
             }
@@ -47,26 +37,23 @@ namespace TubesAI1.Scheduling
                 this.domainRuangan.Add(ruanganManagement.getRuangan(ruangan));
             }
                        
-            // Assign value dan domain 'Kelas'
             this.nama = nama;
             this.durasi = durasi;
+
             this.domainHari = hari;
             this.domainMulai = new List<int>();
-            for(int i = mulai; i <= selesai-durasi; i++)
+            for(int i= mulai; i <= selesai-durasi; i++)
             {
                 this.domainMulai.Add(i);
             }
 
-            // Assign random value sampai value yang dimiliki valid (tidak melanggar constraint ruangan)
-            do
-            {
+            
                 this.setRandomValue();
-            } while (!this.isCurrentValid());
+            
+            
+            
         }
 
-        /*
-           Copy Constructor Kelas
-       */
         public Kelas(Kelas kelas)
         {
             this.ruanganManagement = kelas.ruanganManagement;
@@ -80,22 +67,20 @@ namespace TubesAI1.Scheduling
             this.domainHari = kelas.domainHari;
         }
 
-        /*
-            Assign random value 
-        */
         public void setRandomValue()
         {
-            if (domainRuangan.Count > 1)
+            do
             {
-                this.currentRuangan = this.ruanganManagement.getRandomRuangan();
-            }
-            this.currentMulai = myRandom.GetRandomNumber(this.domainMulai);
-            this.currentHari = myRandom.GetRandomNumber(this.domainHari);
+                if (domainRuangan.Count > 1)
+                {
+                    this.currentRuangan = this.ruanganManagement.getRandomRuangan();
+                }
+                this.currentMulai = myRandom.GetRandomNumber(this.domainMulai);
+                this.currentHari = myRandom.GetRandomNumber(this.domainHari);
+            } while (!this.isCurrentValid());
+            
         }
 
-        /*
-            Print semua data member 'Kelas' (untuk debugging)
-        */
         public void print()
         {
             Console.WriteLine("------------");
@@ -118,18 +103,26 @@ namespace TubesAI1.Scheduling
             Console.WriteLine("------------");
         }
         
-        /*
-            @return true jika value saat ini valid (tidak melanggar constraint Ruangan)
-        */
         public bool isCurrentValid()
         {
             return currentRuangan.isOpen(this.currentMulai, this.currentMulai + this.durasi, this.currentHari);
         }
 
+        public List<Ruangan> getDomainRuangan()
+        {
+            return this.domainRuangan;
+        }
+ 
+        public List<int> getDomainMulai()
+        {
+            return this.domainMulai;
+        }
+ 
+        public List<int> getDomainHari()
+        {
+           return this.domainHari;
+        }
 
-        /**********************
-                GETTER
-        **********************/
         public string getNamaRuangan()
         {
             return this.currentRuangan.getName();
@@ -153,6 +146,26 @@ namespace TubesAI1.Scheduling
         public string getNama()
         {
             return this.nama;
+        }
+
+        public void setMulai(int i)
+        {
+            currentMulai = i;
+        }
+
+        public void setHari(int i)
+        {
+            currentHari = i;
+        }
+        
+        public void setRuangan(Ruangan R)
+        {
+            currentRuangan = R;
+        }
+
+        public Ruangan getRuangan()
+        {
+            return currentRuangan;
         }
     }
 }

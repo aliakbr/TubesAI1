@@ -4,45 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-    File Name: RuanganManagement.cs
-    Description: Berfungsi untuk mengelola Ruangan2
-*/
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     class RuanganManagement
     {
-        // Array of Ruangan
-        private List<Ruangan> arrayRuangan;
+        private List<Ruangan> ruangans;
 
-        /*
-            Constructor
-        */
         public RuanganManagement()
         {
-            this.arrayRuangan = new List<Ruangan>();
+            this.ruangans = new List<Ruangan>();
         }
 
-        /*
-            @param Ruangan : ruangan
-            Menambahkan ruangan ke dalam arrayRuangan
-        */
         public void addRuangan(Ruangan ruangan)
         {
-            this.arrayRuangan.Add(ruangan);
+            this.ruangans.Add(ruangan);
         }
 
-        /*
-            @param nama : nama ruangan
-            @param mulai : jam mulai
-            @param selesai : jam selesai
-            @param hari : hari
-            @return true jika ruangan dengan nama 'nama' buka pada hari 'hari' pada jam 'mulai' s/d jam 'selesai'
-        */
         public bool isRuanganOpen(string nama, int mulai, int selesai, int hari)
         {
             bool open = false;
-            foreach(Ruangan r in this.arrayRuangan)
+            foreach(Ruangan r in this.ruangans)
             {
                 if(r.getName() == nama)
                 {
@@ -52,30 +33,26 @@ namespace TubesAI1.Scheduling
             return open;
         }
 
-
-        /**********************
-                GETTER
-        **********************/
-        public Ruangan getRandomRuangan()
-        {
-            return this.arrayRuangan[myRandom.GetRandomNumber(0, this.arrayRuangan.Count - 1)];
-        }
-
         public Ruangan getRuangan(string nama)
         {
-            foreach(Ruangan r in this.arrayRuangan)
+            foreach(Ruangan r in this.ruangans)
             {
-                if(r.getName().Equals(nama))
+                if(r.getName() == nama)
                 {
                     return r;
                 }
             }
             return null;
-        }       
+        }
+
+        public Ruangan getRandomRuangan()
+        {
+            return this.ruangans[myRandom.GetRandomNumber(0, this.ruangans.Count-1)];
+        }
 
         public List<Ruangan> getAllRuangan()
         {
-            return arrayRuangan;
+            return ruangans;
         }
     }
 }

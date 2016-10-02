@@ -3,29 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using GeneticAlgorithmTesting.StrukturData;
 
-/*
-    File Name: KelasManagement.cs
-    Description: Berfungsi untuk mengelola Kelas2
-*/
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     class KelasManagement
     {
-        // Array of Kelas
         private List<Kelas> arrayKelas;
 
-        /*
-            Constructor
-        */
         public KelasManagement()
         {
             this.arrayKelas = new List<Kelas>();
         }
 
-        /*
-            Semacam Copy Constructor
-        */
         public KelasManagement(List<Kelas> arrayKelas)
         {
             this.arrayKelas = new List<Kelas>();
@@ -36,21 +26,11 @@ namespace TubesAI1.Scheduling
             }
         }
 
-        /*
-            @param Kelas : kelas
-            Menambahkan Kelas ke dalam arrayKelas
-        */
         public void addKelas(Kelas kelas)
         {
             this.arrayKelas.Add(kelas);
         }
 
-
-        /*
-            @return jumlah Kelas yang jadwalnya bertabrakan (conflict)
-            
-            Catatan: Kayaknya masih salah cara ngitungnya
-        */  
         public int getConflict()
         {
             int count = 0;
@@ -60,6 +40,7 @@ namespace TubesAI1.Scheduling
                 {
                     if(isConflict(this.arrayKelas[i], this.arrayKelas[j]))
                     {
+                        //Console.WriteLine("Conflict: " + this.arrayKelas[i].getNama() + " dan " + this.arrayKelas[j].getNama());
                         count++;
                     }
                 }
@@ -67,11 +48,6 @@ namespace TubesAI1.Scheduling
             return count;
         }
 
-        /*
-            @param k1 : Kelas 1
-            @param k2 : Kelas 2
-            @return tru jika jadwal Kelas 1 dan Kelas 2 bertabrakan
-        */
         private bool isConflict(Kelas k1, Kelas k2)
         {
             if(k1.getNamaRuangan() != k2.getNamaRuangan())
@@ -100,21 +76,44 @@ namespace TubesAI1.Scheduling
             return true;
         }
 
-        /*
-            @param i : index
-            Assign random value untuk Kelas[i]
-        */
-        public void setRandomValue(int i)
-        {
-            arrayKelas[i].setRandomValue();
-        }
-
-        /**********************
-                GETTER
-        **********************/
         public List<Kelas> getArrayKelas()
         {
             return this.arrayKelas;
         }
+
+        public void setRandomValue(int i)
+        {
+            do
+            {
+                arrayKelas[i].setRandomValue();
+                //Console.WriteLine("Try");
+            } while (!arrayKelas[i].isCurrentValid());
+        }
+
+        public void printall()
+         {
+             //print all
+             int count = this.arrayKelas.Count;
+             for (int i = 0; i<count; i++)
+             {
+                 this.arrayKelas[i].print();
+             }
+         }
+
+        public bool IsAdaConflict(Kelas k)
+        {
+                        /* fungsi ini mengmbalikan nilai true jika kelas k memiliki jadwal yang bertabrakan/kkonflik dengan min salah satu dari semua matkul */
+                        for (int i = 0; i < this.arrayKelas.Count; i++)
+            {
+                                if (k.getNama().CompareTo(this.arrayKelas[i].getNama()) != 0)
+                {
+                                        if (isConflict(k, this.arrayKelas[i]))
+                    {
+                                                return true;
+                                            }
+                                    }
+                            }
+                        return false;
+                    }
     }
 }

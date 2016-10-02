@@ -8,7 +8,7 @@ using System.Threading.Tasks;
     File Name: SimulatedAnnealing.cs
     Description: Class untuk menjalankan Simulated annealing
 */
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     class SimulatedAnnealing
     {
@@ -34,10 +34,13 @@ namespace TubesAI1.Scheduling
         {
             this.solution = new KelasManagement(this.kelasManagement.getArrayKelas());
             Console.WriteLine("Initial conflict: "+this.solution.getConflict());
-            
+            solution.printall();
+            Console.WriteLine();
             Console.WriteLine("Temperature: " + temperature);
             Console.WriteLine("Cooling rate: " + cooling_rate);
             Console.WriteLine("---------");
+
+
             while (temperature > 1)
             {
                 for(int i=0; i<200; i++)
@@ -62,13 +65,16 @@ namespace TubesAI1.Scheduling
                 }
                 temperature *= cooling_rate;
             }
+
+            //solution.printall();
+            this.solution.printall();
             Console.WriteLine("---------");
             Console.WriteLine("Last conflict: " + this.solution.getConflict());
         }
 
         public KelasManagement getSol()
         {
-            return this.solution;
+            return solution;
         }
 
     }

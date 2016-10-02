@@ -4,22 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-    File Name: Ruangan.cs
-    Description: Class Ruangan
-*/
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     class Ruangan
     {
-        private string nama;                // Contoh: "7602"
-        private int jam_buka;               // Contoh: 7 (buka mulai jam 7)
-        private int jam_tutup;              // Contoh: 14 (tutup jam 14)
-        private List<int> hari_buka;        // Contoh: [1,2] (buka hari Senin dan Selasa)
+        private string nama;
+        private int jam_buka;
+        private int jam_tutup;
+        private List<int> hari_buka;
 
-        /*
-            Constructor
-        */
+        public Ruangan()
+        {
+            hari_buka = new List<int>();
+        }
+
         public Ruangan(string nama, int jam_buka, int jam_tutup, List<int> hari)
         {
             this.nama = nama;
@@ -28,12 +26,21 @@ namespace TubesAI1.Scheduling
             this.hari_buka = hari;
         }
 
-        /*
-            @param mulai : jam mulai
-            @param selesai : jam selesai
-            @param hari : hari
-            @return true jika kelas BUKA pada hari 'hari' pada jam 'mulai' s/d jam 'selesai' 
-        */
+        public Ruangan(Ruangan R)
+        {
+            nama = R.nama;
+            jam_buka = R.jam_buka;
+            jam_tutup = R.jam_tutup;
+            hari_buka = new List<int>(R.hari_buka.Count);
+            if (hari_buka != null)
+            {
+                foreach (int i in R.hari_buka)
+                {
+                    hari_buka[i] = R.hari_buka[i];
+                }
+            }
+        }
+
         public bool isOpen(int mulai, int selesai, int hari)
         {
             if (mulai < this.jam_buka || selesai > this.jam_tutup || !this.isHariOpen(hari))
@@ -43,10 +50,6 @@ namespace TubesAI1.Scheduling
             return true;
         }
 
-        /*
-            @param hari : hari
-            @return true jika kelas BUKA pada hari 'hari'
-        */
         private bool isHariOpen(int hari)
         {
             bool open = false;
@@ -60,12 +63,46 @@ namespace TubesAI1.Scheduling
             return open;
         }
 
-        /**********************
-                GETTER
-        **********************/
         public string getName()
         {
             return this.nama;
+        }
+
+        public int getBuka()
+        {
+            return jam_buka;
+        }
+
+        public int getTutup()
+        {
+            return jam_tutup;
+        }
+
+        public List<int> getHariBuka()
+        {
+            return hari_buka;
+        }
+
+        public void setBuka(int i)
+        {
+            jam_buka = i;
+        }
+
+        public void setTutup(int i)
+        {
+            jam_tutup = i;
+        }
+
+        public void setHariBuka(List<int> haribuka)
+        {
+            hari_buka = new List<int>(haribuka.Count);
+            if (hari_buka != null)
+            {
+                foreach(int i in haribuka)
+                {
+                    hari_buka[i] = haribuka[i];
+                }
+            }
         }
     }
 }

@@ -4,31 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-    File Name: myRandom.cs
-    Description: Kelas untuk generate random integer / float.
-*/
-
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     class myRandom
     {
         //Function to get random number
         private static readonly Random getrandom = new Random();
         private static readonly object syncLock = new object();
-
-        /*
-            @param arrayInt : List of integer
-            @return : a random member of arrayInt
-        */
-        public static int GetRandomNumber(List<int> arrayInt)
+        public static int GetRandomNumber(List<int> domainHari)
         {
             lock (syncLock)
             { // synchronize
                 while (true)
                 {
                     int random = getrandom.Next(0, 24);
-                    foreach (int hari in arrayInt)
+                    foreach (int hari in domainHari)
                     {
                         if (random == hari)
                         {
@@ -38,12 +28,7 @@ namespace TubesAI1.Scheduling
                 }
             }
         }
-
-        /*
-            @param min : mininum value
-            @param max : maximum value
-            @return : a random integer between min and max
-        */
+        //Function to get random number
         public static int GetRandomNumber(int min, int max)
         {
             lock (syncLock)
@@ -52,11 +37,6 @@ namespace TubesAI1.Scheduling
             }
         }
 
-        /*
-            @param minimum : mininum value
-            @param maximum : maximum value
-            @return : a random float between min and max
-        */
         public static double GetRandomFloat(double minimum, double maximum)
         {
             Random random = new Random();

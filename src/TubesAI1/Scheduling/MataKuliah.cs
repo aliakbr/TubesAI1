@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TubesAI1.Scheduling
+namespace Tubes1AI.Scheduling
 {
     public class MataKuliah
     {
@@ -15,14 +15,23 @@ namespace TubesAI1.Scheduling
         private int durasi;
         private string ruangan;
 
-        public MataKuliah(string nama = "", string hari = "", int awal = 0, int selesai = 0, int durasi = 0, string ruangan = "")
+        public MataKuliah()
         {
-            this.nama = nama;
-            this.hari = hari;
-            this.awal = awal;
-            this.akhir = selesai;
-            this.durasi = durasi;
-            this.ruangan = ruangan;
+            nama = "";
+            hari = "";
+            awal = 0;
+            akhir = 0;
+            durasi = 0;
+            ruangan = "";
+        }
+        public MataKuliah(string nama1, string hari1, int awal1, int selesai1, int durasi1, string ruangan1)
+        {
+            nama = nama1;
+            hari = hari1;
+            awal = awal1;
+            akhir = selesai1;
+            durasi = durasi1;
+            ruangan = ruangan1;
         }
 
         //Getter
