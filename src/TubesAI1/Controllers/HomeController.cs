@@ -202,17 +202,31 @@ namespace TubesAI1.Controllers
                 sa.execute(1000, 0.9f);
                 KelasManagement ans = sa.getSol();
                 int i = 0;
-                ViewData["header-table"] = "<div class='container'>  <table class='table'>     <tr>  <th class='head'><h3>Jam / Hari</h3></th>         <td class='head'><h3>Senin</h3>  </td><td class='head'><h3>Selasa</h3>  </td><td class='head'><h3>Rabu</h3>  </td><td class='head'><h3>Kamis</h3>  </td><td class='head'><h3>Jumat</h3>  </td><td class='head'><h3></h3>  </td></tr>";
-              foreach (Kelas k in listOfKelas.getArrayKelas())
+                // Inisialisasi
+                for (int j = 7; j < 18; j++)
+                {
+                    for (int k = 1; k < 6; k++)
+                    {
+                        ViewData["nama" + j.ToString() + k.ToString()] = " ";
+                        ViewData["ruangan" + j.ToString() + k.ToString()] = " ";
+                    }
+                }
+
+                // Pengisian kelas di tabel
+                foreach (Kelas k in listOfKelas.getArrayKelas())
                 {
                     ViewData["nama" + i.ToString()] = k.getNama();
                     ViewData["ruangan" + i.ToString()] = k.getNamaRuangan();
                     ViewData["durasi" + i.ToString()] = k.getDurasi();
                     ViewData["hari" + i.ToString()] = k.getHari();
                     ViewData["jam" + i.ToString()] = k.getMulai();
+                    if (ViewData["nama" + k.getMulai().ToString() + k.getHari().ToString()].Equals(" "))
+                    {
+                        ViewData["nama" + k.getMulai().ToString() + k.getHari().ToString()] = k.getNama();
+                        ViewData["ruangan" + k.getMulai().ToString() + k.getHari().ToString()] = k.getNamaRuangan();
+                    }
                     i++;
                 }
-                ViewData["footer-table"] = "</table></ div > ";
                 ViewData["Length"] = i;
             }
             return View();

@@ -14,32 +14,27 @@
             <td class="head"><h3>Jumat</h3>  </td>
             <td class="head"><h3></h3>  </td>
         </tr>
-        <tr>
-            @{
-                for (int z = 0; z < (int)ViewData["Length"]; z++)
+        @{ 
+            for (int i = 7; i < 18; i++)
+            {
+                <tr class="sortable-list">
+                @for (int j = 1; j < 6; j++)
                 {
-                    <li>
-                        Nama Kelas: @ViewData["nama" + z.ToString()]<br />
-                        Nama Ruangan: @ViewData["ruangan" + z.ToString()]<br />
-                        Jam Mulai: @ViewData["jam" + z.ToString()]<br />
-                        Durasi: @ViewData["durasi" + z.ToString()]<br />
-                        Hari: @ViewData["hari" + z.ToString()]<br />
-                    </li>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    @if (j == 1)
+                    {
+                        <td class="head"><h3>@(i.ToString() + "-" + (i + 1).ToString())</h3></td>
+                    } else
+                    {
+                        <td><h3>@ViewData["nama" + i.ToString() + j.ToString()]<br />
+                            @ViewData["ruangan" + i.ToString() + j.ToString()]</h3></td>
+                    }
                 }
-            
-        </tr>
+                </tr>
+            }
+        }
         </table>
  </div>
- }
-
-        <p>@ViewData["Message"]</p>
-        <br />
-        <br />
-        <form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
-            <input type="file" name="files" multiple />
-            <input type="submit" value="Upload" />
-        </form>
+<form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />     
+    <input type="submit" value="Upload" />
+</form>
