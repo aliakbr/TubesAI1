@@ -21,20 +21,33 @@ namespace Tubes1AI.Scheduling
 
         private RuanganManagement ruanganManagement;
 
-        // IF2110;7602;07.00;12.00;4;1,2,3,4,5
-        // 
-        public Kelas(string nama, string ruangan, int mulai, int selesai, int durasi, List<int> hari, RuanganManagement ruanganManagement)
+        
+        /////////// Contoh cara make:
+        //
+        // List<int> hari_k1 = new List<int>();
+        // hari_k1.Add(1);
+        // hari_k1.Add(2);
+        // hari_k1.Add(3);
+        // hari_k1.Add(4);
+        // hari_k1.Add(5);
+        // List<string> constrain_ruangan= new List<string>();
+        // constrain_ruangan.Add("7602");
+        // constrain_ruangan.Add("7610");
+        // Kelas k1 = new Kelas("IF2110", constrain_ruangan, 7, 12, 4, hari_k1, rm);
+        public Kelas(string nama, List<string> ruangan, int mulai, int selesai, int durasi, List<int> hari, RuanganManagement ruanganManagement)
         {
             this.ruanganManagement = ruanganManagement;
-            if (ruangan == "-")
+            if (ruangan[0] == "-")
             {
                 this.domainRuangan = ruanganManagement.getAllRuangan();
             }
             else
             {
-                this.currentRuangan = ruanganManagement.getRuangan(ruangan);
+                this.currentRuangan = ruanganManagement.getRuangan(ruangan[0]);
                 this.domainRuangan = new List<Ruangan>();
-                this.domainRuangan.Add(ruanganManagement.getRuangan(ruangan));
+                foreach(string r in ruangan) {
+                    this.domainRuangan.Add(ruanganManagement.getRuangan(r));
+                }
             }
                        
             this.nama = nama;
