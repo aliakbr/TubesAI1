@@ -40,7 +40,7 @@ namespace Tubes1AI.Scheduling
                 {
                     var a = this.arrayKelas[i];
                     var b = this.arrayKelas[j];
-                    if(isConflict(this.arrayKelas[i], this.arrayKelas[j]))
+                    if(isConflict(a,b))
                     {
                         //Console.WriteLine("Conflict: " + this.arrayKelas[i].getNama() + " dan " + this.arrayKelas[j].getNama());
                         if (a.getMulai() > b.getMulai())
