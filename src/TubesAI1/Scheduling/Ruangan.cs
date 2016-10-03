@@ -12,10 +12,14 @@ namespace Tubes1AI.Scheduling
         private int jam_buka;
         private int jam_tutup;
         private List<int> hari_buka;
+        private int waktu_available;
+        private int waktu_terpakai;
 
         public Ruangan()
         {
             hari_buka = new List<int>();
+            waktu_available = 0;
+            waktu_terpakai = 0;
         }
 
         public Ruangan(string nama, int jam_buka, int jam_tutup, List<int> hari)
@@ -24,6 +28,13 @@ namespace Tubes1AI.Scheduling
             this.jam_buka = jam_buka;
             this.jam_tutup = jam_tutup;
             this.hari_buka = hari;
+            int countHari = 0;
+            foreach (int i in hari)
+            {
+                countHari++;
+            }
+            this.waktu_available = countHari * (jam_tutup - jam_buka);
+            this.waktu_terpakai = 0;
         }
 
         public Ruangan(Ruangan R)
@@ -39,6 +50,8 @@ namespace Tubes1AI.Scheduling
                     hari_buka[i] = R.hari_buka[i];
                 }
             }
+            waktu_available = R.waktu_available;
+            waktu_terpakai = R.waktu_terpakai;
         }
 
         public bool isOpen(int mulai, int selesai, int hari)
@@ -103,6 +116,17 @@ namespace Tubes1AI.Scheduling
                     hari_buka[i] = haribuka[i];
                 }
             }
+        }
+
+        public void decrement_waktu_available()
+        {
+            waktu_available--;
+            waktu_terpakai++;
+        }
+
+        public double getEfektifitasRuangan()
+        {
+            return (Convert.ToDouble(waktu_terpakai)/Convert.ToDouble(waktu_available))*100;
         }
     }
 }
