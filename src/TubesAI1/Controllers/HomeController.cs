@@ -246,7 +246,13 @@ namespace TubesAI1.Controllers
                             char val = (char)parse.Read();
                             hari_buka.Add(Int32.Parse(val.ToString()));
                         }
-                        Kelas c = new Kelas(nama, ruangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
+                        /* Mengambil list nama ruangan dari listOfRuangan */
+                        List<string> listOfStringRuangan = new List<string>();
+                        foreach (Ruangan ruanganFromListRuangan in listOfRuangan.getAllRuangan())
+                        {
+                            listOfStringRuangan.Add(ruanganFromListRuangan.getName());
+                        }
+                        Kelas c = new Kelas(nama, listOfStringRuangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
                         listOfKelas.addKelas(c);
                     }
                 }
