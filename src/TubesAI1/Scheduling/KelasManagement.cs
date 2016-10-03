@@ -31,6 +31,11 @@ namespace Tubes1AI.Scheduling
             this.arrayKelas.Add(kelas);
         }
 
+        public bool isRange(int a, int min, int max)
+        {
+            return ((a >= min) && (a <= max));
+        }
+
         public int getConflict()
         {
             int count = 0;
@@ -40,18 +45,35 @@ namespace Tubes1AI.Scheduling
                 {
                     var a = this.arrayKelas[i];
                     var b = this.arrayKelas[j];
-                    if(isConflict(a,b))
+                    if (isConflict(a, b))
                     {
-                        //Console.WriteLine("Conflict: " + this.arrayKelas[i].getNama() + " dan " + this.arrayKelas[j].getNama());
-                        if (a.getMulai() > b.getMulai())
+                        int range_a = a.getMulai() + a.getDurasi();
+                        int range_b = b.getMulai() + b.getDurasi();
+                        //check kalo nilai tidak ada pada range
+                        
+                        /*if (!Enumerable.Range(b.getMulai(), range_b).Contains(range_a) ||
+                            !Enumerable.Range(a.getMulai(), range_a).Contains(range_b))
+                        {*/
+                        /*if (((range_b < a.getMulai()) || (range_b > range_a)) && 
+                            ((range_a < b.getMulai() || (range_a > range_b))))
+                        {*/
+                        if (!isRange(range_b, a.getMulai(), range_a) || !isRange(range_a, b.getMulai(), range_b) ||
+                            !isRange(a.getMulai(), b.getMulai(), range_b) || !isRange(b.getMulai(), a.getMulai(), range_a))
                         {
-                            count += b.getMulai() + b.getDurasi() - a.getMulai();
+                            if (a.getMulai() > b.getMulai())
+                            {
+                                count += b.getMulai() + b.getDurasi() - a.getMulai();
+                            }
+                            else
+                            {
+                                count += a.getMulai() + a.getDurasi() - b.getMulai();
+                            }
                         }
-                        else if (a.getMulai() < b.getMulai()){
-                            count += a.getMulai() + a.getDurasi() - b.getMulai();
-                        }
-                        else{
-                            if (a.getDurasi() > b.getDurasi())
+                        //check untuk nilai di dalam range
+                        else
+                        {
+                            /* Cari durasi minimal kalo sama */
+                            if (a.getDurasi() <= b.getDurasi())
                             {
                                 count += a.getDurasi();
                             }
