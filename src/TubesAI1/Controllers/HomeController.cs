@@ -246,18 +246,12 @@ namespace TubesAI1.Controllers
                             char val = (char)parse.Read();
                             hari_buka.Add(Int32.Parse(val.ToString()));
                         }
-                        /* Mengambil list nama ruangan dari listOfRuangan */
-                        List<string> listOfStringRuangan = new List<string>();
-                        foreach (Ruangan ruanganFromListRuangan in listOfRuangan.getAllRuangan())
-                        {
-                            listOfStringRuangan.Add(ruanganFromListRuangan.getName());
-                        }
-                        Kelas c = new Kelas(nama, listOfStringRuangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
+                        Kelas c = new Kelas(nama, ruangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
                         listOfKelas.addKelas(c);
                     }
                 }
 
-                KelasManagement ans = listOfKelas;
+                KelasManagement ans = new KelasManagement();
                 if (user_input.choice == 0)
                 {
                     HillClimbing hc = new HillClimbing(listOfKelas, listOfRuangan);
@@ -274,10 +268,23 @@ namespace TubesAI1.Controllers
                     Population p = new Population();
                     p.generatePopulation(200, listOfKelas);
                     GeneticAlgorithm ga = new GeneticAlgorithm(p);
+                    for (int ax = 0; ax < 100000; ax++)
+                    {
+                        if (ga.getSolution().getConflict() == 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            ga.crossover();
+                            ga.mutation();
+                        }
+                    }
                     ans = ga.getSolution();
                     ViewData["Choice"] = "Genetic Algorithm";
                 }
-                
+
+                ViewData["tes"] = ans.getConflict();
                 int i = 0;
                 // Inisialisasi
                 for (int j = 7; j < 18; j++)
@@ -289,9 +296,8 @@ namespace TubesAI1.Controllers
                         ViewData["ruangan" + j.ToString() + k.ToString()] = "";
                     }
                 }
-
                 // Pengisian kelas di tabel
-                ViewData["Message"] = ans.getConflict();
+
                 foreach (Kelas k in ans.getArrayKelas())
                 {
                     ViewData["nama" + i.ToString()] = k.getNama();
@@ -311,6 +317,7 @@ namespace TubesAI1.Controllers
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
                         } else
                         {
+                            ViewData["marker" + z.ToString() + k.getHari().ToString()] = 2;
                             ViewData["nama" + z.ToString() + k.getHari().ToString()] += " " + k.getNama();
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
                         }
@@ -318,7 +325,7 @@ namespace TubesAI1.Controllers
                     i++;
                 }
                 ViewData["Length"] = i;
-
+                ViewData["Message"] = conflict;
             }
             ViewData["Start"] = 1;
             return View();
