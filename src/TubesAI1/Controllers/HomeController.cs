@@ -251,7 +251,7 @@ namespace TubesAI1.Controllers
                     }
                 }
 
-                KelasManagement ans;
+                KelasManagement ans = listOfKelas;
                 if (user_input.choice == 0)
                 {
                     HillClimbing hc = new HillClimbing(listOfKelas, listOfRuangan);
@@ -283,8 +283,10 @@ namespace TubesAI1.Controllers
                         ViewData["ruangan" + j.ToString() + k.ToString()] = "";
                     }
                 }
+
                 // Pengisian kelas di tabel
-                foreach (Kelas k in listOfKelas.getArrayKelas())
+                ViewData["Message"] = ans.getConflict();
+                foreach (Kelas k in ans.getArrayKelas())
                 {
                     ViewData["nama" + i.ToString()] = k.getNama();
                     ViewData["ruangan" + i.ToString()] = k.getNamaRuangan();
@@ -308,9 +310,9 @@ namespace TubesAI1.Controllers
                         }
                     }
                     i++;
-                    ViewData["Message"] = conflict;
                 }
                 ViewData["Length"] = i;
+
             }
             ViewData["Start"] = 1;
             return View();
