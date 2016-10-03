@@ -228,6 +228,9 @@ namespace TubesAI1.Controllers
                                 if (point == 0)
                                 {
                                     nama = temp;
+                                } else if (point == 1)
+                                {
+                                    domainRuangan.Add(temp);
                                 }
                                 else if (point == 2)
                                 {
