@@ -4,7 +4,6 @@
 
 
 @if ((int)ViewData["Start"] == 1){
-<div class="container">
     <table class="table">
         <tr style="background:#081645; color:#eee;">
             <th class="head"><h3>Jam / Hari</h3></th>
@@ -41,9 +40,9 @@
                                 <ul id=@(j.ToString() + i.ToString()) class="sortable-list">
                                     @if ((int)@ViewData["marker" + i.ToString() + j.ToString()] == 0)
                                     {
-                                        <li id=@ViewData["nama" + i.ToString() + j.ToString()]>
+                                        <li id=@ViewData["nama" + i.ToString() + j.ToString()] class=@ViewData["color" +((i+j) % 4).ToString()]>
                                            <h3>
-                                               @ViewData["nama" + i.ToString() + j.ToString()]<br />
+                                               @ViewData["nama" + i.ToString() + j.ToString()] - 
                                                @ViewData["ruangan" + i.ToString() + j.ToString()]
                                            </h3>
                                         </li>
@@ -57,10 +56,10 @@
                                         foreach (var item in ListItem)
                                         {
                                             <li id=@ViewData["nama" + i.ToString() + j.ToString()]  class="red">
-                                                <h3>
+                                                <h4>
                                                      @item.Nama
                                                      @item.Ruangan
-                                                </h3>
+                                                </h4>
                                             </li>
 
                                         }
@@ -70,14 +69,18 @@
                                         String[] ListNama = @ViewData["nama" + i.ToString() + j.ToString()].ToString().Split(' ');
                                         String[] ListRuangan = @ViewData["ruangan" + i.ToString() + j.ToString()].ToString().Split(' ');
                                         var ListItem = ListNama.Zip(ListRuangan, (n, r) => new { Nama = n, Ruangan = r });
+                                        
+                                       
+                                        int c = 0;
                                         foreach (var item in ListItem)
                                         {
-                                            <li id=@ViewData["nama" + i.ToString() + j.ToString()]>
+                                            <li id=@ViewData["nama" + i.ToString() + j.ToString()] class=@ViewData["color"+c.ToString()]>
                                                 <h3>
                                                     @item.Nama
                                                     @item.Ruangan
                                                 </h3>
                                             </li>
+                                            c++;
 
                                         }
 
@@ -91,24 +94,39 @@
                 }
             }
 </table>
-</div>
-<h3 id="konflik">Jumlah konflik yang ada: @ViewData["Message"]</h3>
+
+
+    <h3 id="konflik"><b>Jumlah konflik yang ada:</b> @ViewData["tes"]</h3>
+    <br />
+    <h3><b>Efektivitas</b></h3>
     int nRuangan = Convert.ToInt32(@ViewData["banyakruangan"]);
     for (int n = 0; n < nRuangan; n++)
     {
-        <h3> Ruangan @ViewData["namaruangan"+n.ToString()] : @ViewData["efektifitas" + n.ToString()]</h3>
+    <h3> Ruangan @ViewData["namaruangan" + n.ToString()] : @ViewData["efektifitas" + n.ToString()]</h3>
     }
-<h3>Pilihan algoritma: @ViewData["Choice"]</h3>
-}
+    <h3>Pilihan algoritma: @ViewData["Choice"]</h3>
+    }
 
-<br />
-<form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
-    <input type="file" name="files" />
-    <input type="radio" id="choice1" name="choice" value="0" checked="checked"/>
-    <label for="choice1"><span>Hill Climbing</span></label>
-    <input type="radio" id="choice2" name="choice" value="1"  />
-    <label for="choice2"><span>Simulated Annealing</span></label>
-    <input type="radio" id="choice3" name="choice" value="2" />
-    <label for="choice3"><span>Genetic Algorithm</span></label><br />
-    <input type="submit" value="Upload" />
-</form>
+    <br />
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6" style="text-align: center;">
+            <form method="post" asp-action="Index" asp-controller="Home" enctype="multipart/form-data">
+                <input  style="margin: 0 0 50px 150px" type="file" name="files" />
+                <div style="margin: 0 0 50px 0">
+                <input type="radio" id="choice1" name="choice" value="0" checked="checked" />
+                <label  style="margin: 0 30px 0 0" for="choice1"><span>Hill Climbing</span></label>
+                <input type="radio" id="choice2" name="choice" value="1" />
+                <label  style="margin: 0 30px 0 0" for="choice2"><span>Simulated Annealing</span></label>
+                <input type="radio" id="choice3" name="choice" value="2" />
+                <label  for="choice3"><span>Genetic Algorithm</span></label>
+                </div><br />
+                <input type="submit" class="btn-success btn btn-primary btn-lg" value="Upload" />
+            </form>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>

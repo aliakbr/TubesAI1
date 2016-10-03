@@ -350,6 +350,12 @@ namespace TubesAI1.Controllers
                 }
                 ViewData["banyakruangan"] = nRuangan;
             }
+            @ViewData["color0"] = "green";
+            @ViewData["color1"] = "yellow";
+            @ViewData["color2"] = "brown";
+            @ViewData["color3"] = "blue";
+            @ViewData["color4"] = "green";
+            @ViewData["color5"] = "yellow";
             ViewData["Start"] = 1;
             return View();
         }

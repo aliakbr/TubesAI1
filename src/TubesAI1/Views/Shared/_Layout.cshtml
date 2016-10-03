@@ -36,13 +36,22 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <footer>
-            <p>&copy; 2016 - Huwalaumba</p>
-        </footer>
+    <div class="jumbotron text-center">
+        <h1>HUWALAUMBA</h1>
+        <p>Class Scheduling</p>
     </div>
 
+    <div class="container">
+
+        @RenderBody()
+    </div>
+    <div class="container-fluid">
+        <footer style="margin: 0 0 0 50px; width: 90%">
+            <hr />
+            <h4>&copy; 2016 - Huwalaumba</h4>
+            <h5><b>Ade - Ali - Ari - Azka - Majid</b></h5>
+        </footer>
+    </div>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
