@@ -338,6 +338,7 @@ namespace TubesAI1.Controllers
                     }
                     i++;
                 }
+                ViewData["tes"] = conflict;
                 ViewData["Length"] = i;
 
                 /* Memasukkan data keefektifan untuk ditampilkan di web */
