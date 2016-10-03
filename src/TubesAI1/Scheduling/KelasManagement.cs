@@ -38,10 +38,28 @@ namespace Tubes1AI.Scheduling
             {
                 for(int j=i+1; j < this.arrayKelas.Count; j++)
                 {
+                    var a = this.arrayKelas[i];
+                    var b = this.arrayKelas[j];
                     if(isConflict(this.arrayKelas[i], this.arrayKelas[j]))
                     {
                         //Console.WriteLine("Conflict: " + this.arrayKelas[i].getNama() + " dan " + this.arrayKelas[j].getNama());
-                        count++;
+                        if (a.getMulai() > b.getMulai())
+                        {
+                            count += b.getMulai() + b.getDurasi() - a.getMulai();
+                        }
+                        else if (a.getMulai() < b.getMulai()){
+                            count += a.getMulai() + a.getDurasi() - b.getMulai();
+                        }
+                        else{
+                            if (a.getDurasi() > b.getDurasi())
+                            {
+                                count += a.getDurasi();
+                            }
+                            else
+                            {
+                                count += b.getDurasi();
+                            }
+                        }
                     }
                 }
             }
