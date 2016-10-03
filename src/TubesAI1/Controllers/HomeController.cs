@@ -104,6 +104,7 @@ namespace TubesAI1.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(ICollection<IFormFile> files, UserInput u)
         {
+            /* Uploader File */
             user_input = u;
             var uploads = Path.Combine(_environment.WebRootPath, "uploads");
             foreach (var file in files)
@@ -162,6 +163,7 @@ namespace TubesAI1.Controllers
                         isRuangan = false;
                         isKelas = true;
                     }
+                    /* Membaca data ruangan */
                     else if (isRuangan)
                     {
                         var sr = new StringReader(line);
@@ -203,6 +205,7 @@ namespace TubesAI1.Controllers
                         }
                         listOfRuangan.addRuangan(new Ruangan(nama, jam_buka, jam_tutup, hari_buka));
                     }
+                    /* Menambah info kelas */
                     else if (isKelas)
                     {
                         var sr = new StringReader(line);
@@ -310,6 +313,8 @@ namespace TubesAI1.Controllers
                         {
                             ViewData["nama" + z.ToString() + k.getHari().ToString()] = k.getNama();
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] = k.getNamaRuangan();
+                            //Kurangi waktu available dan tambahkan waktu terpakai;
+                            listOfRuangan.getRuangan(k.getNamaRuangan()).decrement_waktu_available();
                         } else if (cekRuanganSama(k.getNamaRuangan(), ViewData["ruangan" + z.ToString() + k.getHari().ToString()].ToString())){
                             conflict++;
                             ViewData["marker" + z.ToString() + k.getHari().ToString()] = 1;
@@ -320,12 +325,23 @@ namespace TubesAI1.Controllers
                             ViewData["marker" + z.ToString() + k.getHari().ToString()] = 2;
                             ViewData["nama" + z.ToString() + k.getHari().ToString()] += " " + k.getNama();
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
+                            /* Kurangi waktu available dan tambahkan waktu terpakai*/
+                            listOfRuangan.getRuangan(k.getNamaRuangan()).decrement_waktu_available();
                         }
                     }
                     i++;
                 }
                 ViewData["Length"] = i;
-                ViewData["Message"] = conflict;
+
+                /* Memasukkan data keefektifan untuk ditampilkan di web */
+                int nRuangan = 0;
+                foreach (Ruangan ruang_ruang in listOfRuangan.getAllRuangan())
+                {
+                    ViewData["namaruangan" + nRuangan.ToString()] = ruang_ruang.getName();
+                    ViewData["efektifitas" + nRuangan.ToString()] = ruang_ruang.getEfektifitasRuangan();
+                    nRuangan++;
+                }
+                ViewData["banyakruangan"] = nRuangan;
             }
             ViewData["Start"] = 1;
             return View();

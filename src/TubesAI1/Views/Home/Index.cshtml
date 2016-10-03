@@ -92,8 +92,12 @@
             }
 </table>
 </div>
-<h3>Jumlah konflik yang ada: @ViewData["Message"]</h3>
-<h3>Tes GetKonfilk : @ViewData["tes"]</h3>    
+<h3 id="konflik">Jumlah konflik yang ada: @ViewData["Message"]</h3>
+    int nRuangan = Convert.ToInt32(@ViewData["banyakruangan"]);
+    for (int n = 0; n < nRuangan; n++)
+    {
+        <h3> Ruangan @ViewData["namaruangan"+n.ToString()] : @ViewData["efektifitas" + n.ToString()]</h3>
+    }
 <h3>Pilihan algoritma: @ViewData["Choice"]</h3>
 }
 
