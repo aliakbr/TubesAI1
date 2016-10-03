@@ -141,7 +141,7 @@ namespace TubesAI1.Controllers
                 /* ADT KELAS */
                 // Domain value yang dimiliki 'Kelas'
                 string ruangan = "";
-                List<Ruangan> domainRuangan = new List<Ruangan>();
+                List<string> domainRuangan = new List<string>();
                 List<int> domainMulai = new List<int>();          // Contoh: [7, 8, 9] (Kelas hanya bisa mulai jam 7, 8, atau 9)
                 List<int> domainHari = new List<int>();           // Contoh: [1, 3, 5] (Kelas hanya bisa dilakukan hari Senin, Rabu, atau Jumat)
                 int durasi = 0;                     // Contoh: 4 (4 jam)
@@ -171,7 +171,6 @@ namespace TubesAI1.Controllers
                         temp = "";
                         hari_buka = new List<int>();
                         domainMulai = new List<int>();
-                        domainRuangan = new List<Ruangan>();
                         for (int k = 0; k < line.Length; k++)
                         {
                             b = (char)sr.Read();
@@ -212,18 +211,23 @@ namespace TubesAI1.Controllers
                         int point = 0;
                         temp = "";
                         hari_buka = new List<int>();
+                        domainRuangan = new List<string>();
                         for (int k = 0; k < line.Length; k++)
                         {
                             b = (char)sr.Read();
-                            if (b == ';')
+                            if ((point == 1) && (b != ';'))
+                            {
+                                if (b == ',')
+                                {
+                                    domainRuangan.Add(temp);
+                                    temp = "";
+                                }
+                                else temp += b;
+                            } else if (b == ';')
                             {
                                 if (point == 0)
                                 {
                                     nama = temp;
-                                }
-                                else if (point == 1)
-                                {
-                                    ruangan = temp;
                                 }
                                 else if (point == 2)
                                 {
@@ -249,7 +253,7 @@ namespace TubesAI1.Controllers
                             char val = (char)parse.Read();
                             hari_buka.Add(Int32.Parse(val.ToString()));
                         }
-                        Kelas c = new Kelas(nama, ruangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
+                        Kelas c = new Kelas(nama, domainRuangan, jam_buka, jam_tutup, durasi, hari_buka, listOfRuangan);
                         listOfKelas.addKelas(c);
                     }
                 }
