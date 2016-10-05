@@ -37,19 +37,29 @@ namespace Tubes1AI.Scheduling
         public Kelas(string nama, List<string> ruangan, int mulai, int selesai, int durasi, List<int> hari, RuanganManagement ruanganManagement)
         {
             this.ruanganManagement = ruanganManagement;
-            if (ruangan[0] == "-")
+            this.domainRuangan = new List<Ruangan>();
+            
+            if (ruangan[0].Equals("-"))
             {
                 this.domainRuangan = ruanganManagement.getAllRuangan();
             }
             else
             {
                 this.currentRuangan = ruanganManagement.getRuangan(ruangan[0]);
-                this.domainRuangan = new List<Ruangan>();
-                foreach(string r in ruangan) {
-                    this.domainRuangan.Add(ruanganManagement.getRuangan(r));
+                
+                
+                foreach (string r in ruangan)
+                {
+                    foreach(Ruangan x in ruanganManagement.getAllRuangan())
+                    {
+                        if(r.Equals(x.getName()))
+                        {
+                            this.domainRuangan.Add(x);
+                        }
+                    }
                 }
             }
-                       
+
             this.nama = nama;
             this.durasi = durasi;
 
@@ -59,12 +69,8 @@ namespace Tubes1AI.Scheduling
             {
                 this.domainMulai.Add(i);
             }
-
             
-                this.setRandomValue();
-            
-            
-            
+            this.setRandomValue();            
         }
 
         public Kelas(Kelas kelas)
