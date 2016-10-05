@@ -33,7 +33,7 @@ namespace Tubes1AI.Scheduling
         {
             lock (syncLock)
             { // synchronize
-                return getrandom.Next(min, max);
+                return getrandom.Next(min, max+1);
             }
         }
 
