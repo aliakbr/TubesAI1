@@ -44,7 +44,7 @@ textarea {
 
 .aqua {
     background-color:#00ffff;
-    color: #fff;
+    color: #000;
 }
 
 .purple {
@@ -92,6 +92,7 @@ textarea {
 table{
     border-style:solid;
     text-align:center;
+    overflow: hidden;
 }
 
 ul {
@@ -123,6 +124,15 @@ ul {
         }
 
         th {
+            width: 300px;
+            margin: 10px;
+            background:#081645;
+            color:#fff;
+            border:solid;
+            
+            text-align: center;
+        }
+        .head {
             width: 14%;
             background:#081645;
             color:#fff;
@@ -130,15 +140,17 @@ ul {
             
             text-align: center;
         }
-        
-        tr:nth-child(even){background-color: #ddd}
+        td {
+            width: 300px;
+            margin: 10px;
 
+        }
+        tr:nth-child(odd){background-color: #ddd}
+
+        td:hover{background-color:#777;
+                 color: #fff;
+        }
         tr:hover{background-color:#777;
                  color: #fff;
         }
 
-
-        td {
-            width: 300px;
-            margin: 10px;
-        }

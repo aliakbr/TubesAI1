@@ -7,11 +7,11 @@
     <table class="table">
         <tr style="background:#081645; color:#eee;">
             <th class="head"><h3>Jam / Hari</h3></th>
-            <td class="head"><h3>Senin</h3>  </td>
-            <td class="head"><h3>Selasa</h3>  </td>
-            <td class="head"><h3>Rabu</h3>  </td>
-            <td class="head"><h3>Kamis</h3>  </td>
-            <td class="head"><h3>Jumat</h3>  </td>
+            <th class="head"><h3>Senin</h3>  </th>
+            <th class="head"><h3>Selasa</h3>  </th>
+            <th class="head"><h3>Rabu</h3>  </th>
+            <th class="head"><h3>Kamis</h3>  </th>
+            <th class="head"><h3>Jumat</h3>  </th>
         </tr>
         @{ 
             for (int i = 7; i < 18; i++)
@@ -44,7 +44,6 @@
                                         int.TryParse((string)@ViewData["kelas" + i.ToString() + j.ToString()], out temp);
                                         <li class=@ViewData["color" + (temp % 8).ToString()] >
                                            <h3>
-                                               @ViewData["color" + (temp % 8).ToString()]
                                                @ViewData["nama" + i.ToString() + j.ToString()] - 
                                                @ViewData["ruangan" + i.ToString() + j.ToString()]
                                            </h3>
@@ -61,7 +60,7 @@
                                         {
                                             <li id=@ViewData["nama" + i.ToString() + j.ToString()]  class="red">
                                                 <h4>
-                                                     @item.Nama
+                                                     @item.Nama - 
                                                      @item.Ruangan
                                                 </h4>
                                             </li>
@@ -83,8 +82,7 @@
                                             int.TryParse(ListKelas[c], out kelas);
                                             <li id=@ViewData["nama" + i.ToString() + j.ToString()] class=@ViewData["color" + (kelas % 8).ToString()]>
                                                 <h3>
-                                                    @ViewData["color" + (kelas % 8).ToString()]
-                                                    @item.Nama
+                                                    @item.Nama - 
                                                     @item.Ruangan
                                                 </h3>
                                             </li>
