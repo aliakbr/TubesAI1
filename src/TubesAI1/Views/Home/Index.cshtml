@@ -40,14 +40,18 @@
                                 <ul id=@(j.ToString() + i.ToString()) class="sortable-list">
                                     @if ((int)@ViewData["marker" + i.ToString() + j.ToString()] == 0)
                                     {
-                                        <li id=@ViewData["nama" + i.ToString() + j.ToString()] class=@ViewData["color" +((i+j) % 4).ToString()]>
+                                        int temp;
+                                        int.TryParse((string)@ViewData["kelas" + i.ToString() + j.ToString()], out temp);
+                                        <li class=@ViewData["color" + (temp % 8).ToString()] >
                                            <h3>
+                                               @ViewData["color" + (temp % 8).ToString()]
                                                @ViewData["nama" + i.ToString() + j.ToString()] - 
                                                @ViewData["ruangan" + i.ToString() + j.ToString()]
                                            </h3>
                                         </li>
                                      }
-                                            //Kasus Konflik
+                                     
+                                    //Kasus Konflik
                                      else if ((int)@ViewData["marker" + i.ToString() + j.ToString()] == 1)
                                      {
                                         String[] ListNama = @ViewData["nama" + i.ToString() + j.ToString()].ToString().Split(' ');
@@ -64,18 +68,22 @@
 
                                         }
                                     }
-                                    else
+                                    else if ((int)@ViewData["marker" + i.ToString() + j.ToString()] == 2)
                                     {
                                         String[] ListNama = @ViewData["nama" + i.ToString() + j.ToString()].ToString().Split(' ');
                                         String[] ListRuangan = @ViewData["ruangan" + i.ToString() + j.ToString()].ToString().Split(' ');
+                                        String[] ListKelas = @ViewData["kelas" + i.ToString() + j.ToString()].ToString().Split(' ');
                                         var ListItem = ListNama.Zip(ListRuangan, (n, r) => new { Nama = n, Ruangan = r });
-                                        
-                                       
+
+
                                         int c = 0;
                                         foreach (var item in ListItem)
                                         {
-                                            <li id=@ViewData["nama" + i.ToString() + j.ToString()] class=@ViewData["color"+c.ToString()]>
+                                            int kelas;
+                                            int.TryParse(ListKelas[c], out kelas);
+                                            <li id=@ViewData["nama" + i.ToString() + j.ToString()] class=@ViewData["color" + (kelas % 8).ToString()]>
                                                 <h3>
+                                                    @ViewData["color" + (kelas % 8).ToString()]
                                                     @item.Nama
                                                     @item.Ruangan
                                                 </h3>
@@ -96,18 +104,18 @@
 </table>
 
 
-    <h3 id="konflik"><b>Jumlah konflik yang ada:</b> @ViewData["tes"]</h3>
-    <br />
-    <h3><b>Efektivitas</b></h3>
-    int nRuangan = Convert.ToInt32(@ViewData["banyakruangan"]);
-    for (int n = 0; n < nRuangan; n++)
-    {
-    <h3> Ruangan @ViewData["namaruangan" + n.ToString()] : @ViewData["efektifitas" + n.ToString()]</h3>
-    }
-    <h3>Pilihan algoritma: @ViewData["Choice"]</h3>
-    }
-
-    <br />
+    
+<h3 id="konflik"><b>Jumlah konflik yang ada:</b> @ViewData["tes"]</h3>    
+<br />    
+<h3><b>Efektivitas</b></h3>    
+int nRuangan = Convert.ToInt32(@ViewData["banyakruangan"]);    
+for (int n = 0; n < nRuangan; n++)    
+{
+    <h3> Ruangan @ViewData["namaruangan" + n.ToString()] : @ViewData["efektifitas" + n.ToString()]</h3>   
+}    
+    <h3>Pilihan algoritma: @ViewData["Choice"]</h3>    
+}    
+<br />
 
 
 <div class="container">
