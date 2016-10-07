@@ -120,7 +120,6 @@ namespace Tubes1AI.Scheduling
 
         public void decrement_waktu_available()
         {
-            waktu_available--;
             waktu_terpakai++;
         }
 
