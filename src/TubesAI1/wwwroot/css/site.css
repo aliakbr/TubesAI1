@@ -36,6 +36,26 @@ textarea {
     display: none
   }
 }
+
+.black {
+    background-color:#000000;
+    color: #fff;
+}
+
+.aqua {
+    background-color:#00ffff;
+    color: #fff;
+}
+
+.purple {
+    background-color:#800080;
+    color: #fff;
+}
+
+.wood {
+    background-color:#deb887;
+}
+
 .red{
     background: #b22525;
     color: #fff;

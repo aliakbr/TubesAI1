@@ -301,7 +301,7 @@ namespace TubesAI1.Controllers
                 {
                     for (int k = 1; k < 6; k++)
                     {
-                        ViewData["marker" + j.ToString() + k.ToString()] = 0;
+                        ViewData["marker" + j.ToString() + k.ToString()] = 5;
                         ViewData["nama" + j.ToString() + k.ToString()] = "";
                         ViewData["ruangan" + j.ToString() + k.ToString()] = "";
                     }
@@ -318,17 +318,21 @@ namespace TubesAI1.Controllers
                     for (int z = k.getMulai(); z < (k.getMulai() + k.getDurasi()); z++) {
                         if (ViewData["ruangan" + z.ToString() + k.getHari().ToString()].Equals(""))
                         {
+                            ViewData["kelas" + z.ToString() + k.getHari().ToString()] = i.ToString();
+                            ViewData["marker" + z.ToString() + k.getHari().ToString()] = 0;
                             ViewData["nama" + z.ToString() + k.getHari().ToString()] = k.getNama();
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] = k.getNamaRuangan();
                             //Kurangi waktu available dan tambahkan waktu terpakai;
                             listOfRuangan.getRuangan(k.getNamaRuangan()).decrement_waktu_available();
                         } else if (cekRuanganSama(k.getNamaRuangan(), ViewData["ruangan" + z.ToString() + k.getHari().ToString()].ToString())){
                             conflict++;
+                            ViewData["kelas" + z.ToString() + k.getHari().ToString()] = i.ToString();
                             ViewData["marker" + z.ToString() + k.getHari().ToString()] = 1;
                             ViewData["nama" + z.ToString() + k.getHari().ToString()] += " " + k.getNama();
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
                         } else
                         {
+                            ViewData["kelas" + z.ToString() + k.getHari().ToString()] += " " + i.ToString();
                             ViewData["marker" + z.ToString() + k.getHari().ToString()] = 2;
                             ViewData["nama" + z.ToString() + k.getHari().ToString()] += " " + k.getNama();
                             ViewData["ruangan" + z.ToString() + k.getHari().ToString()] += " " + k.getNamaRuangan();
@@ -351,12 +355,14 @@ namespace TubesAI1.Controllers
                 }
                 ViewData["banyakruangan"] = nRuangan;
             }
-            @ViewData["color0"] = "green";
-            @ViewData["color1"] = "yellow";
-            @ViewData["color2"] = "brown";
-            @ViewData["color3"] = "blue";
-            @ViewData["color4"] = "green";
-            @ViewData["color5"] = "yellow";
+            ViewData["color0"] = "green";
+            ViewData["color1"] = "yellow";
+            ViewData["color2"] = "brown";
+            ViewData["color3"] = "blue";
+            ViewData["color4"] = "black";
+            ViewData["color5"] = "aqua";
+            ViewData["color6"] = "purple";
+            ViewData["color7"] = "wood";
             ViewData["Start"] = 1;
             return View();
         }
