@@ -363,6 +363,8 @@ namespace TubesAI1.Controllers
             ViewData["color5"] = "aqua";
             ViewData["color6"] = "purple";
             ViewData["color7"] = "wood";
+            ViewData["color8"] = "pink";
+            ViewData["color9"] = "orange";
             ViewData["Start"] = 1;
             return View();
         }

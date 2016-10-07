@@ -37,6 +37,16 @@ textarea {
   }
 }
 
+.orange {
+    background: #ea5311;
+    color: #fff;
+}
+
+.pink{
+    background: #d41fdc;
+    color:#000;
+}
+
 .black {
     background-color:#000000;
     color: #fff;
