@@ -42,12 +42,12 @@ namespace Tubes1AI.Scheduling
             nama = R.nama;
             jam_buka = R.jam_buka;
             jam_tutup = R.jam_tutup;
-            hari_buka = new List<int>(R.hari_buka.Count);
+            hari_buka = new List<int>();
             if (hari_buka != null)
             {
-                foreach (int i in R.hari_buka)
+                for (int i = 0; i < R.hari_buka.Count; i++)
                 {
-                    hari_buka[i] = R.hari_buka[i];
+                    hari_buka.Add(R.hari_buka[i]);
                 }
             }
             waktu_available = R.waktu_available;
@@ -126,6 +126,16 @@ namespace Tubes1AI.Scheduling
         public double getEfektifitasRuangan()
         {
             return (Convert.ToDouble(waktu_terpakai)/Convert.ToDouble(waktu_available))*100;
+        }
+
+        public int getWaktuTerpakai()
+        {
+            return waktu_terpakai;
+        }
+
+        public int getWaktuAvailable()
+        {
+            return waktu_available;
         }
     }
 }

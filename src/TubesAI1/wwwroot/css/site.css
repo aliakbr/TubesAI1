@@ -114,7 +114,8 @@ ul {
 
         li {
             margin: 0 3px 3px 3px;
-            height: 20px;
+            height: auto;
+            padding: 2px;
             width: 100%;
         }
         li h3{

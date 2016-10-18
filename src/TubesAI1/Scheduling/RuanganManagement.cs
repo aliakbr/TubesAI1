@@ -9,7 +9,6 @@ namespace Tubes1AI.Scheduling
     class RuanganManagement
     {
         private List<Ruangan> ruangans;
-
         public RuanganManagement()
         {
             this.ruangans = new List<Ruangan>();
@@ -53,6 +52,19 @@ namespace Tubes1AI.Scheduling
         public List<Ruangan> getAllRuangan()
         {
             return ruangans;
+        }
+
+        public Double getEfektifitas()
+        {
+            int WaktuTerpakai = 0;
+            int WaktuAvailable = 0;
+            foreach (Ruangan R in ruangans)
+            {
+                WaktuTerpakai += R.getWaktuTerpakai();
+                WaktuAvailable += R.getWaktuAvailable();
+            }
+
+            return (Convert.ToDouble(WaktuTerpakai) / Convert.ToDouble(WaktuAvailable)) * 100;
         }
     }
 }
